@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import org from "./Organize.module.css";
 import { Link } from "react-router-dom";
 import "./Temp.css";
+import { API_URL } from "./data/apipath";
 
 const Organize = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [Organization,setOrganization] = useState('');
+  const [email,setemail] =useState('');
+  const [password,setpassword] = useState('');
+  const [Email,setEmail] = useState('');
+  const [Password,setPassword] = useState('');
+
 
   useEffect(() => {
-    // Initial animation after component mounts
     setTimeout(() => {
       setIsSignIn(true);
     }, 200);
@@ -17,7 +23,64 @@ const Organize = () => {
     setIsSignIn(!isSignIn);
   };
 
-  // const [active, setActive] = useState("home");
+  const mess = document.getElementById('error');
+  const logmess = document.getElementById('logmess');
+
+  const handleSubmit = async (e)=> {
+    e.preventDefault()
+
+    try {
+      const response = await fetch(`${API_URL}/college/collegeSignup`,{
+        method:'POST',
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify({Organization,email,password})
+      })
+
+      const data = await response.json();
+
+      if(response.ok){
+        console.log(data);
+        alert('Registration Successful');
+        setIsSignIn(true);
+      }
+      else{
+        mess.textContent= "Email already Exists"
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleLogin = async (e)=> {
+    e.preventDefault()
+
+    try {
+      const response = await fetch(`${API_URL}/college/collegeLogin`,{
+        method:'POST',
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify({Email,Password})
+      })
+
+      const data = await response.json()
+
+
+      if(response.ok){
+        console.log(data)
+        alert('Login successful')
+        localStorage.setItem('collegeToken',data.token)
+      }
+      logmess.textContent="Invalid Email or password"
+
+
+    } catch (error) {
+      
+    }
+  }
+
 
   return (
     <div
@@ -40,17 +103,19 @@ const Organize = () => {
         >
           <div className={`${org.formwrapper} ${org.alignitemscenter}`}>
             <div className={`${org.form} ${org.signup}`}>
+            <form action="" onSubmit={handleSubmit}>  
               <div className={org.inputgroup}>
                 <i className={`${org.bx} ${org.bxsuser}`}></i>
-                <input type="text" placeholder="Organization Name" />
+                <p id="error"></p>
+                <input type="text" placeholder="Organization Name"  value={Organization} onChange={(e)=> setOrganization(e.target.value)} required/>
               </div>
               <div className={org.inputgroup}>
                 <i className={`${org.bx} ${org.bxmailsend}`}></i>
-                <input type="email" placeholder="Email" />
+                <input type="email" placeholder="Email" value={email} onChange={(e) => setemail(e.target.value)} required/>
               </div>
               <div className={org.inputgroup}>
                 <i className={`${org.bx} ${org.bxslockalt}`}></i>
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" value={password} onChange={(e)=> setpassword(e.target.value)} required/>
               </div>
               {/* <div className={org.inputgroup}>
                 <i className={`${org.bx} ${org.bxslockalt}`}></i>
@@ -63,6 +128,7 @@ const Organize = () => {
                   Sign in here
                 </b>
               </p>
+            </form>  
             </div>
           </div>
         </div>
@@ -73,19 +139,20 @@ const Organize = () => {
         >
           <div className={`${org.formwrapper} ${org.alignitemscenter}`}>
             <div className={`${org.form} ${org.signin}`}>
+            <form action="" onSubmit={handleLogin}> 
               <div className={org.inputgroup}>
+                <p id="logmess"></p>
                 <i className={`${org.bx} ${org.bxsuser}`}></i>
-                <input type="text" placeholder="email" />
+                <input type="text" placeholder="email" required value={Email} onChange={(e)=> setEmail(e.target.value)}/>
               </div>
               <div className={org.inputgroup}>
                 <i className={`${org.bx} ${org.bxslockalt}`}></i>
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" required value={Password} onChange={(e)=> setPassword(e.target.value)} />
               </div>
-              <button>
-                <Link to="/myposts">Sign in</Link>
+              <button type="submit">Sign in
               </button>
               <p>
-                <b>Forgot password?</b>
+                <button className={org.butt}>Forgot password?</button>
               </p>
               <p>
                 <span>Don't have an account?</span>
@@ -93,6 +160,7 @@ const Organize = () => {
                   Sign up here
                 </b>
               </p>
+            </form> 
             </div>
           </div>
         </div>

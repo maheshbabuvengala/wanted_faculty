@@ -294,6 +294,12 @@ body {
   text-decoration: none;
 }
 
+.butt{
+  text-decoration: none;
+  width: 10px;
+  height: 10px;
+}
+
 /* RESPONSIVE */
 
 @media only screen and (max-width: 425px) {

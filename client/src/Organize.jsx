@@ -3,7 +3,8 @@ import org from "./Organize.module.css";
 import { Link } from "react-router-dom";
 import "./Temp.css";
 import { API_URL } from "./data/apipath";
-import Model from 'react-modal'
+import Model from 'react-modal';
+import { useNavigate } from "react-router-dom";
 
 const Organize = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -17,6 +18,7 @@ const Organize = () => {
   const [OTP,setOTP] = useState('');
   const [newPassword,setnewPassword] =useState('')
   Model.setAppElement('#root')
+  const navigate = useNavigate();
 
 
 
@@ -81,7 +83,8 @@ const Organize = () => {
       if(response.ok){
         console.log(data)
         alert('Login successful')
-        localStorage.setItem('collegeToken',data.token)
+        localStorage.setItem('collegeToken',data.token);
+        navigate('/myposts')
       }
       logmess.textContent="Invalid Email or password"
 

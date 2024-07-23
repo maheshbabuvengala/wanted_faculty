@@ -1,5 +1,6 @@
 import React from "react";
 import mod from "./Orghome.module.css";
+import style from "./Addpost.module.css";
 import { Link } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
@@ -30,6 +31,45 @@ const Addpost = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className={style.formbox}>
+        <h1 style={{ marginTop: "10px", marginLeft: "10px", color: "white" }}>
+          Add details
+        </h1>
+        <br />
+        <br />
+        <form action="" className={style.form}>
+          <input
+            className={style.input}
+            placeholder="Organization"
+            required
+            type="text"
+          />
+          <span class={style.inputborder}></span>
+          <input
+            className={style.input}
+            placeholder="Branch"
+            required
+            type="text"
+          />
+          <span class={style.inputborder}></span>
+          <input
+            className={style.input}
+            placeholder="No of openings"
+            required
+            type="text"
+          />
+          <span class={style.inputborder}></span>
+          <input
+            className={style.input}
+            placeholder="Salary"
+            required
+            type="text"
+          />
+          <span class={style.inputborder}></span>
+
+          <input type="button" value="submit" className={style.button} />
+        </form>
       </div>
     </div>
   );

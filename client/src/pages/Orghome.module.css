@@ -123,6 +123,7 @@ body {
   padding: 20px;
   overflow-y: auto;
   background-color: #f0f0f0;
+  height: 91vh;
 }
 
 .content h1 {
@@ -196,4 +197,5 @@ th {
 .edit,
 .delete {
   font-size: 20px;
+  cursor: pointer;
 }

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Orghome from "./pages/Orghome";
 import Navbar from "./Components/Navbar";
+import Addpost from "./pages/Addpost";
 // import Temp from "./Temp";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/Org" element={<Organize />} />
           <Route path="/myposts" element={<Orghome />} />
-
+          <Route path="/addpost" element={<Addpost />} />
         </Routes>
       </BrowserRouter>
     </div>

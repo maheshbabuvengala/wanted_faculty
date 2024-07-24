@@ -12,7 +12,7 @@ Modal.setAppElement('#root');
 
 const Orghome = () => {
   const [posts, setPosts] = useState([]);
-  const [deletePost,setdeletePost] =useState('');
+  const [Details,setDetails] =useState([]);
   const [newData, setNewData] = useState({
     _id:'',
     Branch: '',
@@ -38,32 +38,72 @@ const Orghome = () => {
     }
   };
 
+
+  const getDetails = async (e)=> {
+    try {
+      const token = localStorage.getItem('collegeToken');
+      const response = await fetch(`${API_URL}/college/mydetails`, {
+        method: 'GET',
+        headers: {
+          'token': `${token}`
+        }
+      });
+      const newPosts = await response.json();
+      setDetails(newPosts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     postHandler();
-    console.log(deletePost);
+    getDetails();
+    console.log("this is useeffect")
   }, []);
 
 
+
   const handleDelete = async (id) => {
-    // Add your delete logic here
-    const updatedPosts = posts.filter(post => post.id == id);
-    setdeletePost(updatedPosts);
+    const confirm = window.confirm("Are you want to delete the post");
+
+    if(!confirm){
+      return;
+    }else{
+    
+    try {
+      // alert("Are you really want to delete the post");
+  
+      const response = await fetch(`${API_URL}/college/deletepost/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const data = await response.json(); // Properly await the JSON response
+  
+      if (response.ok) {
+        alert("Post deleted successfully");
+        const updatedPosts = posts.filter(post => post.id !== id);
+        setPosts(updatedPosts);
+        window.location.reload();
+      } else {
+        alert("Post not deleted, try again later");
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert("An error occurred, please try again later");
+    }
+  }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewData({
-      ...newData,
-      [name]: value
-    });
-  };
 
   return (
     <div className={mod.org}>
       <div className={mod.nav}>
         <div className={mod.slidebar}>
           <div className={mod.logo}>
-            <h3>Welcome :{posts[0]?.Organization || "Organization"}</h3>
+            <h3>Welcome :{Details ?.Organization || "Organization"}</h3>
             <h2></h2>
           </div>
           <div className={mod.header}>
@@ -116,6 +156,7 @@ const Orghome = () => {
             <table>
               <thead>
                 <tr>
+                  {/* <th>id</th> */}
                   <th>Department</th>
                   <th>Experience</th>
                   <th>Designation</th>
@@ -134,7 +175,7 @@ const Orghome = () => {
                     <td>{item.Nofopenings}</td>
                     <td>{item.Salary}</td>
                     <td className={mod.options}>
-                      <button className={mod.optiondelete} onClick={() => handleDelete(item.id)}>
+                      <button className={mod.optiondelete} onClick={() => handleDelete(item._id)}>
                         <MdDeleteForever className={mod.delete} />
                       </button>
                     </td>

@@ -84,6 +84,7 @@ const Addpost = () => {
           <div className={style.select_branch}>
             <label htmlFor="branch" className={style.branch}>Select Branch</label>
             <select name="branch" id="branch" className={style.select} value={Branch} onChange={(e) => setBranch(e.target.value)}>
+              <option value="">Select Branch</option>
               <option value="Computer Science">Computer Science</option>
               <option value="Electronics">Electronics</option>
               <option value="Electrical">Electrical</option>

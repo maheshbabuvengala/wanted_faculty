@@ -8,28 +8,28 @@ import mod from "./Orghome.module.css";
 import { API_URL } from "../data/apipath";
 
 // Set the app element for accessibility
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 const Orghome = () => {
   const [posts, setPosts] = useState([]);
-  const [deletePost,setdeletePost] =useState('');
+  const [deletePost, setdeletePost] = useState("");
   const [newData, setNewData] = useState({
-    _id:'',
-    Branch: '',
-    Experience: '',
-    Designation: '',
-    Nofopenings: '',
-    Salary: ''
+    _id: "",
+    Branch: "",
+    Experience: "",
+    Designation: "",
+    Nofopenings: "",
+    Salary: "",
   });
 
   const postHandler = async () => {
     try {
-      const token = localStorage.getItem('collegeToken');
+      const token = localStorage.getItem("collegeToken");
       const response = await fetch(`${API_URL}/college/myposts`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'token': `${token}`
-        }
+          token: `${token}`,
+        },
       });
       const newPosts = await response.json();
       setPosts(newPosts.Posts);
@@ -43,10 +43,9 @@ const Orghome = () => {
     console.log(deletePost);
   }, []);
 
-
   const handleDelete = async (id) => {
     // Add your delete logic here
-    const updatedPosts = posts.filter(post => post.id == id);
+    const updatedPosts = posts.filter((post) => post.id == id);
     setdeletePost(updatedPosts);
   };
 
@@ -54,7 +53,7 @@ const Orghome = () => {
     const { name, value } = e.target;
     setNewData({
       ...newData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -68,9 +67,10 @@ const Orghome = () => {
           </div>
           <div className={mod.header}>
             <div className={mod.userprofile}>
-              <span className={mod.userprofilenotification}>
+              <Link to="/applicant" className={mod.userprofilenotification}>
+                <h3>My Applicants</h3>
                 <FaBell />
-              </span>
+              </Link>
               <span className={mod.line}></span>
               <button className={mod.logout}>
                 <Link to="/">
@@ -108,7 +108,9 @@ const Orghome = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan="6" style={{ textAlign: "center" }}>No Posts found</td>
+                  <td colSpan="6" style={{ textAlign: "center" }}>
+                    No Posts found
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -134,7 +136,10 @@ const Orghome = () => {
                     <td>{item.Nofopenings}</td>
                     <td>{item.Salary}</td>
                     <td className={mod.options}>
-                      <button className={mod.optiondelete} onClick={() => handleDelete(item.id)}>
+                      <button
+                        className={mod.optiondelete}
+                        onClick={() => handleDelete(item.id)}
+                      >
                         <MdDeleteForever className={mod.delete} />
                       </button>
                     </td>

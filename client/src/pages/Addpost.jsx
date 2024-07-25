@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import mod from "./Orghome.module.css";
 import style from "./Addpost.module.css";
 import { Link } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
 import { API_URL } from "../data/apipath";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Addpost = () => {
   const [Designation, setDesignation] = useState([]);
-  const [Branch, setBranch] = useState('');
+  const [Branch, setBranch] = useState("");
   const [Experience, setExperience] = useState("");
   const [Nofopenings, setNofopenings] = useState("");
   const [Salary, setSalary] = useState("");
+  const [Details,setDetails] =useState([]);
 
   const handleDesignation = (e) => {
     const value = e.target.value;
@@ -20,20 +22,26 @@ const Addpost = () => {
     } else {
       setDesignation([...Designation, value]);
     }
-  }
+  };
 
   const handlePost = async (e) => {
     e.preventDefault();
-    const Token = localStorage.getItem('collegeToken');
+    const Token = localStorage.getItem("collegeToken");
 
     try {
       const response = await fetch(`${API_URL}/college/collegeposts`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'token': `${Token}`
+          "Content-Type": "application/json",
+          token: `${Token}`,
         },
-        body: JSON.stringify({ Branch, Designation, Experience, Nofopenings, Salary })
+        body: JSON.stringify({
+          Branch,
+          Designation,
+          Experience,
+          Nofopenings,
+          Salary,
+        }),
       });
 
       const data = await response.json();
@@ -46,21 +54,45 @@ const Addpost = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const getDetails = async (e)=> {
+    try {
+      const token = localStorage.getItem('collegeToken');
+      const response = await fetch(`${API_URL}/college/mydetails`, {
+        method: 'GET',
+        headers: {
+          'token': `${token}`
+        }
+      });
+      const newPosts = await response.json();
+      setDetails(newPosts);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  useEffect(() => {
+    getDetails();
+    // console.log("this is useeffect")
+  }, []);
 
   return (
     <div>
       <div className={mod.nav}>
         <div className={mod.slidebar}>
           <div className={mod.logo}>
-            <h3>Welcome Organization name</h3>
+            <Link to="/myposts" style={{ color: "white" }}>
+              <FaArrowLeft className={mod.backarrow} />
+            </Link>
+            <h3>Welcome :{Details ?.Organization || "Organization"}</h3>
             <h2></h2>
           </div>
           <div className={mod.header}>
             <div className={mod.userprofile}>
-              <span className={mod.userprofilenotification}>
+              {/* <Link to="/applicants" className={mod.userprofilenotification}>
                 <FaBell />
-              </span>
+              </Link> */}
               <span className={mod.line}></span>
               <button className={mod.logout}>
                 <Link to="/">
@@ -89,7 +121,9 @@ const Addpost = () => {
               <option value="Electrical">Electrical</option>
               <option value="Civil">Civil</option>
               <option value="Mechanical">Mechanical</option>
-              <option value="Information Technology">Information Technology</option>
+              <option value="Information Technology">
+                Information Technology
+              </option>
               <option value="Metallurgy">Metallurgy</option>
               <option value="Automobile">Automobile</option>
             </select>
@@ -98,11 +132,32 @@ const Addpost = () => {
             <label htmlFor="designation">Designations:</label>
             <div className={style.designation_options}>
               <label htmlFor="UG">UG</label>
-              <input type="checkbox" name="UG" id="UG" checked={Designation.includes('UG')} value="UG" onChange={handleDesignation} />
+              <input
+                type="checkbox"
+                name="UG"
+                id="UG"
+                checked={Designation.includes("UG")}
+                value="UG"
+                onChange={handleDesignation}
+              />
               <label htmlFor="PG">PG</label>
-              <input type="checkbox" name="PG" id="PG" checked={Designation.includes('PG')} value="PG" onChange={handleDesignation} />
+              <input
+                type="checkbox"
+                name="PG"
+                id="PG"
+                checked={Designation.includes("PG")}
+                value="PG"
+                onChange={handleDesignation}
+              />
               <label htmlFor="PHD">PHD</label>
-              <input type="checkbox" name="PHD" id="PHD" checked={Designation.includes('PHD')} value="PHD" onChange={handleDesignation} />
+              <input
+                type="checkbox"
+                name="PHD"
+                id="PHD"
+                checked={Designation.includes("PHD")}
+                value="PHD"
+                onChange={handleDesignation}
+              />
             </div>
           </div>
           <span className={style.inputborder}></span>
@@ -133,7 +188,9 @@ const Addpost = () => {
             onChange={(e) => setSalary(e.target.value)}
           />
           <span className={style.inputborder}></span>
-          <button type="submit" className={style.button}>Submit</button>
+          <button type="submit" className={style.button}>
+            Submit
+          </button>
         </form>
       </div>
     </div>

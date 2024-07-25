@@ -84,9 +84,11 @@ input:focus {
 .branch {
   color: rgba(201, 200, 200, 0.769);
   margin-left: 10px;
+  /* height: 10px; */
 }
 .select_branch{
   display: flex;
+  /* height: 10px; */
   flex-direction: column;
 }
 .designation{

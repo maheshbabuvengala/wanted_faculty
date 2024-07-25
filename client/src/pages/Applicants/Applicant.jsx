@@ -3,8 +3,39 @@ import mod from "./Applicants.module.css";
 import { Link } from "react-router-dom";
 import { MdExitToApp } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
+import { useEffect,useState } from "react";
+import { API_URL } from "../../data/apipath";
 
 const Applicant = () => {
+
+  const [Details,setDetails] =useState([]);
+
+  const getDetails = async (e)=> {
+    try {
+      const token = localStorage.getItem('collegeToken');
+      const response = await fetch(`${API_URL}/college/mydetails`, {
+        method: 'GET',
+        headers: {
+          'token': `${token}`
+        }
+      });
+      const newPosts = await response.json();
+      setDetails(newPosts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    // postHandler();
+    getDetails();
+    // console.log("this is useeffect")
+  }, []);
+
+
+
+
+
   return (
     <div>
       <div className={mod.nav}>
@@ -13,7 +44,7 @@ const Applicant = () => {
             <Link to="/myposts" style={{ color: "white" }}>
               <FaArrowLeft className={mod.backarrow} />
             </Link>
-            <h3>Welcome Organization name</h3>
+            <h3>Welcome :{Details ?.Organization || "Organization"}</h3>
             <h2></h2>
           </div>
           <div className={mod.header}>

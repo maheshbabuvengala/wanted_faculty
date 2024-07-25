@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import mod from "./Orghome.module.css";
 import style from "./Addpost.module.css";
 import { Link } from "react-router-dom";
@@ -13,6 +13,7 @@ const Addpost = () => {
   const [Experience, setExperience] = useState("");
   const [Nofopenings, setNofopenings] = useState("");
   const [Salary, setSalary] = useState("");
+  const [Details,setDetails] =useState([]);
 
   const handleDesignation = (e) => {
     const value = e.target.value;
@@ -55,6 +56,27 @@ const Addpost = () => {
     }
   };
 
+  const getDetails = async (e)=> {
+    try {
+      const token = localStorage.getItem('collegeToken');
+      const response = await fetch(`${API_URL}/college/mydetails`, {
+        method: 'GET',
+        headers: {
+          'token': `${token}`
+        }
+      });
+      const newPosts = await response.json();
+      setDetails(newPosts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getDetails();
+    // console.log("this is useeffect")
+  }, []);
+
   return (
     <div>
       <div className={mod.nav}>
@@ -63,7 +85,7 @@ const Addpost = () => {
             <Link to="/myposts" style={{ color: "white" }}>
               <FaArrowLeft className={mod.backarrow} />
             </Link>
-            <h3>Welcome Organization name</h3>
+            <h3>Welcome :{Details ?.Organization || "Organization"}</h3>
             <h2></h2>
           </div>
           <div className={mod.header}>

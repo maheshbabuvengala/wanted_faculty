@@ -114,11 +114,11 @@ const Orghome = () => {
           </div>
           <div className={mod.header}>
             <div className={mod.userprofile}>
-              <Link to="/applicant" className={mod.userprofilenotification}>
+              {/* <Link to="/applicant" className={mod.userprofilenotification}>
                 <h3>My Applicants</h3>
                 <FaBell />
-              </Link>
-              <span className={mod.line}></span>
+              </Link> */}
+              {/* <span className={mod.line}></span> */}
               <button className={mod.logout}>
                 <Link to="/">
                   <span>Logout</span>

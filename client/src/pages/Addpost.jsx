@@ -6,6 +6,7 @@ import { FaBell } from "react-icons/fa";
 import { MdExitToApp } from "react-icons/md";
 import { API_URL } from "../data/apipath";
 import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Addpost = () => {
   const [Designation, setDesignation] = useState([]);
@@ -14,6 +15,7 @@ const Addpost = () => {
   const [Nofopenings, setNofopenings] = useState("");
   const [Salary, setSalary] = useState("");
   const [Details,setDetails] =useState([]);
+  const navigate = useNavigate();
 
   const handleDesignation = (e) => {
     const value = e.target.value;
@@ -48,6 +50,7 @@ const Addpost = () => {
       if (response.ok) {
         console.log(data);
         alert("New post posted successfully");
+        navigate('/myposts')
       } else {
         alert("New post not added");
       }

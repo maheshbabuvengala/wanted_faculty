@@ -16,6 +16,7 @@ const Organize = () => {
   const [visible, setvisible] = useState(false);
   const [Emails, setEmails] = useState("");
   const [OTP, setOTP] = useState("");
+  const [loading, setLoading] = useState(false);
   const [newPassword, setnewPassword] = useState("");
   const navigate = useNavigate();
   Model.setAppElement("#root");
@@ -63,6 +64,7 @@ const Organize = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/college/collegeLogin`, {
@@ -74,7 +76,7 @@ const Organize = () => {
       });
 
       const data = await response.json();
-
+      setLoading(false);
       if (response.ok) {
         console.log(data);
         alert("Login successful");
@@ -140,7 +142,7 @@ const Organize = () => {
       className={`${org.container} ${isSignIn ? org.signin : org.signup}`}
       style={{ zIndex: visible ? -1 : "6" }}
     >
-      <br />
+      {/* <br /> */}
       <div className={org.navbar}>
         <div className={org.navlinks}>
           <h3 className={org.active}>Organization</h3>
@@ -200,6 +202,7 @@ const Organize = () => {
                   </b>
                 </p>
               </form>
+              {/* {loading && <div className={org.loader}>loader</div>} */}
             </div>
           </div>
         </div>

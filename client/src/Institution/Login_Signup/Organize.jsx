@@ -10,6 +10,9 @@ const Organize = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [Organization, setOrganization] = useState("");
   const [email, setemail] = useState("");
+  const [phone,setPhone] = useState('');
+  const [address,setAddress] = useState('');
+  const [link,setLink] = useState('');
   const [password, setpassword] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -45,7 +48,7 @@ const Organize = () => {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ Organization, email, password }),
+        body: JSON.stringify({ Organization, email, password,phone,address,link }),
       });
 
       const data = await response.json();
@@ -190,10 +193,24 @@ const Organize = () => {
                     required
                   />
                 </div>
-                {/* <div className={org.inputgroup}>
+                <div className={org.inputgroup}>
                 <i className={`${org.bx} ${org.bxslockalt}`}></i>
-                <input type="password" placeholder="Confirm password" />
-              </div> */}
+                <input type="text" placeholder="Phone number" value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required/>
+              </div>
+              <div className={org.inputgroup}>
+                <i className={`${org.bx} ${org.bxslockalt}`}></i>
+                <input type="text" placeholder="Address- City" value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    required/>
+              </div>
+              <div className={org.inputgroup}>
+                <i className={`${org.bx} ${org.bxslockalt}`}></i>
+                <input type="text" placeholder="Website link Ex:https://www.googlr.com" value={link}
+                    onChange={(e) => setLink(e.target.value)}
+                    required/>
+              </div>
                 <button>Sign up</button>
                 <p>
                   <span>Already have an account?</span>

@@ -1,13 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.png";
+import {Link} from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-lg"
+        className="navbar navbar-expand-lg container"
         style={{ backgroundColor: "var(--nudepink)" }}
       >
         <div className="container-fluid">
@@ -43,21 +44,21 @@ const Navbar = () => {
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#">
-                  <h5>Home</h5>
+                  <h5><Link to='/' style={{textDecoration:'none',color:'black'}}>Home</Link></h5>
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
-                  <h5>My applications</h5>
+                  <h5><Link to='/applications' style={{textDecoration:"none",color:"black"}}>My applications</Link></h5>
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
-                  <h5>Profile</h5>
+                  <h5><Link to='/profile' style={{textDecoration:"none",color:"black"}}>Profile</Link></h5>
                 </a>
               </li>
               <li className="nav-item">
-                <button className="btn btn-success">LOGIN/SIGNUP</button>
+                <button className="btn btn-success"><Link to='/login' style={{textDecoration:"none" , color:"white"}}>LOGIN/SIGNUP</Link></button>
               </li>
             </ul>
           </div>
